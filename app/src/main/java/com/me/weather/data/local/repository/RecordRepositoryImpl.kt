@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.map
 class RecordRepositoryImpl @Inject constructor(
     private val recordDao: RecordDao,
 ) : RecordRepository {
-    override fun getAll(): Flow<List<Record>> {
+    override fun observeAll(): Flow<List<Record>> {
         return recordDao
-            .streamAll()
+            .observeAll()
             .map { it.toDomain() }
     }
 

@@ -4,5 +4,5 @@ import com.me.weather.domain.model.Forecast
 import kotlinx.coroutines.flow.Flow
 
 interface ForecastRepository {
-    suspend fun getForecastByCityId(id: Int): Flow<List<Forecast>>
+    fun observeForecastByCityId(id: Int): Flow<List<Forecast>>
 }

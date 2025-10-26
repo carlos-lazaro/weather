@@ -40,7 +40,7 @@ class SearchViewModel @Inject constructor(
     init {
         viewModelScope.launch(ioDispatcher) {
             recordRepository
-                .getAll()
+                .observeAll()
                 .collectLatest { records ->
                     _uiState.update {
                         it.copy(records = records)

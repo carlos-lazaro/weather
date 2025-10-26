@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 class FavoriteRepositoryImpl @Inject constructor(
     private val favoriteDao: FavoriteDao,
 ) : FavoriteRepository {
-    override fun getAll(): Flow<List<Favorite>> {
+    override fun observeAll(): Flow<List<Favorite>> {
         return favoriteDao
             .streamAll()
             .map { it.toDomain() }

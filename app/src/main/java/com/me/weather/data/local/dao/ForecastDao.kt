@@ -36,8 +36,8 @@ interface ForecastDao {
     suspend fun getAllByCityId(cityId: Long): List<ForecastEntity>
 
     @Query("SELECT * FROM forecasts WHERE cityId = :cityId")
-     fun streamAllByCityId(cityId: Int): Flow<List<ForecastEntity>>
+     fun observeAllByCityId(cityId: Int): Flow<List<ForecastEntity>>
 
     @Query("SELECT * FROM forecasts")
-    fun streamAll(): Flow<List<ForecastEntity>>
+    fun observeAll(): Flow<List<ForecastEntity>>
 }

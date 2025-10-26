@@ -11,9 +11,9 @@ import javax.inject.Inject
 class ForecastRepositoryImpl @Inject constructor(
     private val forecastDao: ForecastDao,
 ) : ForecastRepository {
-    override suspend fun getForecastByCityId(id: Int): Flow<List<Forecast>> {
+    override fun observeForecastByCityId(id: Int): Flow<List<Forecast>> {
         return forecastDao
-            .streamAllByCityId(id)
+            .observeAllByCityId(id)
             .map { it.toDomain() }
     }
 }

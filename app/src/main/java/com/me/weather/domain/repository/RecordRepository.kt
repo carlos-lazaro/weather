@@ -4,7 +4,7 @@ import com.me.weather.domain.model.Record
 import kotlinx.coroutines.flow.Flow
 
 interface RecordRepository {
-    fun getAll(): Flow<List<Record>>
+    fun observeAll(): Flow<List<Record>>
 
     suspend fun add(record: Record)
 

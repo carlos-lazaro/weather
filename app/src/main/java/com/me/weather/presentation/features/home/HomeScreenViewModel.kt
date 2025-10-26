@@ -50,7 +50,7 @@ class HomeScreenViewModel @Inject constructor(
     init {
         viewModelScope.launch(ioDispatcher) {
             userPreferencesRepository
-                .getWeatherId()
+                .observeWeatherId()
                 .collectLatest { id ->
                     id?.let { id ->
                         _uiState.update {
@@ -64,7 +64,7 @@ class HomeScreenViewModel @Inject constructor(
                 .map { it.currentWeatherId }
                 .distinctUntilChanged()
                 .flatMapLatest { id ->
-                    weatherRepository.getWeatherById(id)
+                    weatherRepository.observeWeatherById(id)
                 }
                 .collectLatest { weather ->
                     weather?.let { weather ->
@@ -79,7 +79,7 @@ class HomeScreenViewModel @Inject constructor(
                 .map { it.currentWeatherId }
                 .distinctUntilChanged()
                 .flatMapLatest { id ->
-                    forecastRepository.getForecastByCityId(id)
+                    forecastRepository.observeForecastByCityId(id)
                 }
                 .collectLatest { forecasts ->
                     forecasts
@@ -93,7 +93,7 @@ class HomeScreenViewModel @Inject constructor(
         }
         viewModelScope.launch(ioDispatcher) {
             favoriteRepository
-                .getAll()
+                .observeAll()
                 .collectLatest { favorites ->
                     _uiState.update {
                         it.copy(

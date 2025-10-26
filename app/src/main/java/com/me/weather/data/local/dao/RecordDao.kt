@@ -24,5 +24,5 @@ interface RecordDao {
     suspend fun deleteById(id: Int)
 
     @Query("SELECT * FROM records")
-    fun streamAll(): Flow<List<RecordEntity>>
+    fun observeAll(): Flow<List<RecordEntity>>
 }

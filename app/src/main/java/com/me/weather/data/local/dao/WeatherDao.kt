@@ -25,8 +25,8 @@ interface WeatherDao {
     suspend fun deleteById(id: Int)
 
     @Query("SELECT * FROM weathers WHERE id = :id")
-    fun streamAllById(id: Int): Flow<Weather?>
+    fun observeById(id: Int): Flow<Weather?>
 
     @Query("SELECT * FROM weathers")
-    fun getAll(): Flow<List<WeatherEntity>>
+    fun observeAll(): Flow<List<WeatherEntity>>
 }

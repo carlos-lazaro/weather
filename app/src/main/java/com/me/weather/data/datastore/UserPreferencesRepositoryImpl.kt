@@ -10,7 +10,7 @@ class UserPreferencesRepositoryImpl(
         dataStoreManager.setWeatherId(id)
     }
 
-    override fun getWeatherId(): Flow<Int?> {
+    override fun observeWeatherId(): Flow<Int?> {
         return dataStoreManager.getWeatherId()
     }
 }

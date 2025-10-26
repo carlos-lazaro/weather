@@ -9,7 +9,7 @@ import javax.inject.Inject
 class WeatherRepositoryImpl @Inject constructor(
     private val weatherDao: WeatherDao,
 ) : WeatherRepository {
-    override suspend fun getWeatherById(id: Int): Flow<Weather?> {
-        return weatherDao.streamAllById(id)
+    override fun observeWeatherById(id: Int): Flow<Weather?> {
+        return weatherDao.observeById(id)
     }
 }
