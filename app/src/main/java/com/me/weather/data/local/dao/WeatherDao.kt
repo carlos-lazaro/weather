@@ -21,11 +21,20 @@ interface WeatherDao {
     @Delete
     suspend fun delete(weatherEntity: WeatherEntity)
 
+    @Query("DELETE FROM weathers")
+    suspend fun deleteAll()
+
     @Query("DELETE FROM weathers WHERE id = :id")
     suspend fun deleteById(id: Int)
 
     @Query("SELECT * FROM weathers WHERE id = :id")
-    fun observeById(id: Int): Flow<Weather?>
+    suspend fun getById(id: Int): WeatherEntity?
+
+    @Query("SELECT * FROM weathers WHERE name = :name")
+    suspend fun getByName(name: String): WeatherEntity?
+
+    @Query("SELECT * FROM weathers WHERE id = :id")
+    fun observeById(id: Int): Flow<WeatherEntity?>
 
     @Query("SELECT * FROM weathers")
     fun observeAll(): Flow<List<WeatherEntity>>

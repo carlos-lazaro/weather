@@ -13,7 +13,7 @@ private fun format(value: Long, format: String, locale: Locale): String {
 }
 
 fun Long.toPrettyDate(
-    format: String = "EEE, dd MMM yyyy HH:mm",
+    format: String = "EEE, dd MMM yyyy HH:mm a",
     locale: Locale = Locale.getDefault(),
 ): String {
     return format(this, format, locale)

@@ -83,8 +83,7 @@ private fun Content(
     onAction: (SearchScreenAction) -> Unit = {},
     onBack: () -> Unit = {},
 ) {
-    val markerState = rememberUpdatedMarkerState()
-    val cameraPositionState = rememberCameraPositionState {}
+    val cameraPositionState = rememberCameraPositionState()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     var isMapReady by remember { mutableStateOf(false) }
@@ -96,13 +95,12 @@ private fun Content(
             RequestState.Idle -> {}
             RequestState.Loading -> {}
             is RequestState.Success<Weather> -> {
-                val latLng = LatLng(state.data.lat, state.data.lon)
-
-                markerState.position = latLng
-
                 cameraPositionState.animate(
-                    update = CameraUpdateFactory.newLatLngZoom(latLng, 10f),
-                    durationMs = 334,
+                    update = CameraUpdateFactory.newLatLngZoom(
+                        LatLng(state.data.lat, state.data.lon),
+                        uiState.cameraZoom,
+                    ),
+                    durationMs = uiState.cameraDurations,
                 )
             }
         }
@@ -169,7 +167,9 @@ private fun Content(
                     RequestState.Loading -> {}
                     is RequestState.Success<Weather> -> {
                         Marker(
-                            state = markerState,
+                            state = rememberUpdatedMarkerState(
+                                position = LatLng(state.data.lat, state.data.lon),
+                            ),
                         )
                     }
                 }

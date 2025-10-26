@@ -17,7 +17,7 @@ import com.me.weather.domain.use_case.LoadDataUseCase
 import com.me.weather.presentation.utils.RequestState
 import com.me.weather.presentation.utils.RequestState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow

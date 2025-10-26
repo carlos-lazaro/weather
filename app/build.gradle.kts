@@ -94,6 +94,7 @@ android {
 }
 
 dependencies {
+    ksp(libs.androidx.hilt.compiler)
     ksp(libs.hilt.android.compiler)
     ksp(libs.room.compiler)
 
@@ -102,6 +103,7 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.work)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -113,6 +115,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     implementation(libs.hilt.android)
@@ -142,6 +145,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.work.testing)
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
     debugImplementation(libs.androidx.ui.test.manifest)

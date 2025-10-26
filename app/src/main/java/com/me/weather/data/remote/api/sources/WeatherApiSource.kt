@@ -6,5 +6,6 @@ import com.me.weather.domain.model.ResponseResource
 interface WeatherApiSource {
     suspend fun loadData(
         query: String,
+        pruneOldData: Boolean,
     ): ResponseResource<WeatherEntity>
 }

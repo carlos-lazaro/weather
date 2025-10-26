@@ -17,8 +17,11 @@ class WeatherApiSourceImpl @Inject constructor(
     private val forecastDao: ForecastDao,
     private val database: Database,
 ) : BaseApiCall(), WeatherApiSource {
-//    TODO: manage error
-    override suspend fun loadData(query: String): ResponseResource<WeatherEntity> {
+    //    TODO: manage error
+    override suspend fun loadData(
+        query: String,
+        pruneOldData: Boolean,
+    ): ResponseResource<WeatherEntity> {
         return when (val weatherRes = safeApiCall { weatherService.getWeather(query) }) {
             is ResponseResource.Error -> ResponseResource.Error(
                 errors = weatherRes.errors,
@@ -47,8 +50,13 @@ class WeatherApiSourceImpl @Inject constructor(
 
                         try {
                             database.withTransaction {
+                                if (pruneOldData) {
+                                    weatherDao.deleteAll()
+                                    forecastDao.deleteAll()
+                                } else {
+                                    forecastDao.deleteByCityId(cityId)
+                                }
                                 weatherDao.insert(weatherEntity)
-                                forecastDao.deleteByCityId(cityId)
                                 forecastDao.insert(forecasts)
                             }
 

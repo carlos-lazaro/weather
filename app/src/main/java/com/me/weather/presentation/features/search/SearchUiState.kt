@@ -9,4 +9,6 @@ data class SearchUiState(
     val weather: Weather? = null,
     val weatherRequestState: RequestState<Weather> = RequestState.Idle,
     val records: List<Record> = emptyList(),
+    val cameraZoom: Float = 10f,
+    val cameraDurations: Int = 334,
 )

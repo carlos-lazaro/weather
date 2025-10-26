@@ -23,6 +23,9 @@ interface ForecastDao {
     @Delete
     suspend fun delete(forecastEntity: ForecastEntity)
 
+    @Query("DELETE FROM forecasts")
+    suspend fun deleteAll()
+
     @Query("DELETE FROM forecasts WHERE id = :id")
     suspend fun deleteById(id: Int)
 
@@ -36,7 +39,7 @@ interface ForecastDao {
     suspend fun getAllByCityId(cityId: Long): List<ForecastEntity>
 
     @Query("SELECT * FROM forecasts WHERE cityId = :cityId")
-     fun observeAllByCityId(cityId: Int): Flow<List<ForecastEntity>>
+    fun observeAllByCityId(cityId: Int): Flow<List<ForecastEntity>>
 
     @Query("SELECT * FROM forecasts")
     fun observeAll(): Flow<List<ForecastEntity>>

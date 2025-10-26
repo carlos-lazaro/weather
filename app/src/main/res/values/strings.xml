@@ -14,6 +14,6 @@
     <string name="favorites">favorites</string>
     <string name="empty_state_favorites_cities">No favorite cities yet. Star a city to add it here.</string>
     <string name="delete_favorite">delete favorite</string>
-    <string name="empty_state_search_cities">Search for a city to see the results here.</string>
+    <string name="empty_state_search_cities">Search for a city to see the detail here.</string>
     <string name="recent">recent</string>
 </resources>

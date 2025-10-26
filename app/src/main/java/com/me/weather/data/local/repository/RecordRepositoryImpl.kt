@@ -5,7 +5,7 @@ import com.me.weather.data.local.entities.toDomain
 import com.me.weather.data.local.entities.toEntity
 import com.me.weather.domain.model.Record
 import com.me.weather.domain.repository.RecordRepository
-import jakarta.inject.Inject
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
