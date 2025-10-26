@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="location">location</string>
+    <string name="reload">reload</string>
+    <string name="feels_like">Feels like</string>
+    <string name="search">search</string>
+    <string name="humidity">humidity</string>
+    <string name="close">close</string>
+    <string name="details">Details</string>
+    <string name="forecast">forecast</string>
+    <string name="sunrise">sunrise</string>
+    <string name="sunset">sunset</string>
+    <string name="start">start</string>
+    <string name="favorites">favorites</string>
+    <string name="empty_state_favorites_cities">No favorite cities yet. Star a city to add it here.</string>
+    <string name="delete_favorite">delete favorite</string>
+    <string name="empty_state_search_cities">Search for a city to see the results here.</string>
+    <string name="recent">recent</string>
+</resources>
