@@ -1,12 +1,14 @@
 package com.me.weather.domain.use_case
 
-import com.me.weather.data.local.entities.WeatherEntity
 import com.me.weather.data.local.entities.toDomain
 import com.me.weather.data.remote.api.sources.WeatherApiSource
 import com.me.weather.domain.model.City
-import com.me.weather.domain.model.ResponseResource
 import com.me.weather.domain.model.Weather
 import com.me.weather.domain.repository.WeatherRepository
+import com.me.weather.domain.util.DataError
+import com.me.weather.domain.util.Result
+import com.me.weather.domain.util.map
+import com.me.weather.domain.util.onSuccess
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -21,28 +23,24 @@ class LoadDataUseCase @Inject constructor(
     suspend operator fun invoke(
         query: City,
         pruneOldData: Boolean = false,
-    ): ResponseResource<Weather> {
+    ): Result<Weather, DataError> {
         weatherRepository
             .getWeatherByName(name = query)
             ?.takeIf {
                 it.dt.isYoungerThanMinutes(AGE_MINUTES_RECORD)
             }?.let {
                 Timber.d("Getting data from db, $it")
-                return ResponseResource.Success(data = it)
+                return Result.Success(it)
             }
 
-        return when (
-            val res = weatherApiSource.loadData(query = query, pruneOldData = pruneOldData)
-        ) {
-            is ResponseResource.Error -> {
-                ResponseResource.Error(res.errors, res.exception)
+        return weatherApiSource
+            .loadData(query = query, pruneOldData = pruneOldData)
+            .map {
+                it.toDomain()
             }
-
-            is ResponseResource.Success<WeatherEntity> -> {
-                Timber.d("Getting data from api, ${res.data.toDomain()}")
-                ResponseResource.Success(data = res.data.toDomain())
+            .onSuccess {
+                Timber.d("Getting data from api, ${it}")
             }
-        }
     }
 
     private fun Long.isYoungerThanMinutes(minutes: Int): Boolean {

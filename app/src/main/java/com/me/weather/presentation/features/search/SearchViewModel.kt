@@ -4,24 +4,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.me.weather.domain.model.AppDispatchers
 import com.me.weather.domain.model.Dispatcher
-import com.me.weather.domain.model.ResponseResource
-import com.me.weather.domain.model.Weather
 import com.me.weather.domain.model.toRecord
 import com.me.weather.domain.repository.RecordRepository
 import com.me.weather.domain.repository.UserPreferencesRepository
 import com.me.weather.domain.use_case.LoadDataUseCase
+import com.me.weather.domain.util.onError
+import com.me.weather.domain.util.onSuccess
 import com.me.weather.presentation.utils.RequestState
 import com.me.weather.presentation.utils.RequestState.Success
+import com.me.weather.presentation.utils.asUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -36,6 +39,9 @@ class SearchViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = _uiState.value,
     )
+
+    private val eventChannel = Channel<SearchScreenEvent>()
+    val events = eventChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch(ioDispatcher) {
@@ -63,22 +69,21 @@ class SearchViewModel @Inject constructor(
                         _uiState.update { it.copy(weatherRequestState = RequestState.Loading) }
 
                         viewModelScope.launch(ioDispatcher) {
-                            when (val res = loadDataUseCase(query = action.query)) {
-                                is ResponseResource.Error -> {
-                                    _uiState.update { it.copy(weatherRequestState = RequestState.Idle) }
-                                }
-
-                                is ResponseResource.Success<Weather> -> {
-                                    recordRepository.add(res.data.toRecord())
+                            loadDataUseCase(query = action.query)
+                                .onSuccess { data ->
+                                    recordRepository.add(data.toRecord())
 
                                     _uiState.update {
                                         it.copy(
-                                            weatherRequestState = Success(data = res.data),
-                                            weather = res.data,
+                                            weatherRequestState = Success(data = data),
+                                            weather = data,
                                         )
                                     }
                                 }
-                            }
+                                .onError { data ->
+                                    _uiState.update { it.copy(weatherRequestState = RequestState.Idle) }
+                                    eventChannel.send(SearchScreenEvent.Error(data.asUiText()))
+                                }
                         }
                     }
             }

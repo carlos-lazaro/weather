@@ -1,5 +1,6 @@
 package com.me.weather.presentation.features.home
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,7 @@ import com.me.weather.presentation.ui.components.WeatherIndicator
 import com.me.weather.presentation.ui.components.WeatherSection
 import com.me.weather.presentation.ui.preview.ThemePreview
 import com.me.weather.presentation.ui.theme.WeatherTheme
+import com.me.weather.presentation.utils.ObserveAsEvents
 import com.me.weather.presentation.utils.RequestState
 
 @Composable
@@ -41,7 +44,20 @@ fun HomeScreen(
     innerPadding: PaddingValues,
     goToSearch: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(homeViewModel.events) { event ->
+        when (event) {
+            is HomeScreenEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.message.asString(context),
+                    Toast.LENGTH_LONG,
+                ).show()
+            }
+        }
+    }
 
     Content(
         uiState = uiState,

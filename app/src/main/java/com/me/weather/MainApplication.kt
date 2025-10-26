@@ -18,15 +18,18 @@ class MainApplication : Application(), Configuration.Provider {
         super.onCreate()
 
         if (BuildConfig.DEBUG) {
-            Timber.plant(object : Timber.DebugTree() {
-                override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-                    val prefix = "---> "
+            Timber.plant(
+                object : Timber.DebugTree() {
+                    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+                        val prefix = "---> "
 
-                    val newMessage = if (message.startsWith(prefix)) message else "$prefix$message"
+                        val newMessage =
+                            if (message.startsWith(prefix)) message else "$prefix$message"
 
-                    super.log(priority, tag, newMessage, t)
+                        super.log(priority, tag, newMessage, t)
+                    }
                 }
-            })
+            )
             Timber.d("Timber is running.")
         }
 

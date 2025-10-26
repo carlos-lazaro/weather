@@ -2,6 +2,7 @@
 
 package com.me.weather.presentation.features.search
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,11 +36,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -55,6 +58,7 @@ import com.me.weather.presentation.ui.components.SearchTextField
 import com.me.weather.presentation.ui.components.WeatherMapCard
 import com.me.weather.presentation.ui.preview.ThemePreview
 import com.me.weather.presentation.ui.theme.WeatherTheme
+import com.me.weather.presentation.utils.ObserveAsEvents
 import com.me.weather.presentation.utils.RequestState
 
 @Composable
@@ -63,7 +67,20 @@ fun SearchScreen(
     innerPadding: PaddingValues,
     onBack: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     val uiState by searchViewModel.uiState.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(searchViewModel.events) { event ->
+        when (event) {
+            is SearchScreenEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.message.asString(context),
+                    Toast.LENGTH_LONG,
+                ).show()
+            }
+        }
+    }
 
     Content(
         uiState = uiState,
