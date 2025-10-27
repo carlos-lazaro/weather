@@ -267,13 +267,16 @@ private fun SheetContent(
 
         Spacer(Modifier.padding(8.dp))
 
-        Column(
+        Box(
             modifier = Modifier
+                .weight(1f, fill = false)
+                .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
+                .padding(vertical = 8.dp)
         ) {
             FlowRow(
-                modifier = Modifier.padding(8.dp),
                 maxItemsInEachRow = Int.MAX_VALUE,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 records.forEach { record ->
                     ChipElement(
