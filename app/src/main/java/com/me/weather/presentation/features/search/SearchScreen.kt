@@ -42,7 +42,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -76,7 +75,7 @@ fun SearchScreen(
                 Toast.makeText(
                     context,
                     event.message.asString(context),
-                    Toast.LENGTH_LONG,
+                    Toast.LENGTH_SHORT,
                 ).show()
             }
         }
@@ -100,6 +99,7 @@ private fun Content(
     onAction: (SearchScreenAction) -> Unit = {},
     onBack: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     val cameraPositionState = rememberCameraPositionState()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 

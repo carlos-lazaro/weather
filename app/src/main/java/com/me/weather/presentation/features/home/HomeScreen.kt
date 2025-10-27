@@ -53,7 +53,7 @@ fun HomeScreen(
                 Toast.makeText(
                     context,
                     event.message.asString(context),
-                    Toast.LENGTH_LONG,
+                    Toast.LENGTH_SHORT,
                 ).show()
             }
         }
