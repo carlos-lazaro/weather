@@ -30,5 +30,7 @@
     <string name="error_server_error">The server is temporarily unavailable. Please try again in a few minutes.</string>
     <string name="error_serialization">We had trouble processing the server’s response. Please try again later.</string>
     <string name="error_unknown">Something went wrong unexpectedly. Please try again.</string>
+    <string name="you_didn_t_make_a_search_yet">you didn\'t make a search yet</string>
+    <string name="clear_history">Clear history</string>
 
 </resources>

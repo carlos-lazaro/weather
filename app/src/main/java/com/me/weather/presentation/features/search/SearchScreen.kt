@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -151,6 +153,12 @@ private fun Content(
                 onClick = {
                     if (uiState.records.isNotEmpty())
                         isSheetOpen = true
+                    else
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.you_didn_t_make_a_search_yet),
+                            Toast.LENGTH_SHORT,
+                        ).show()
                 },
             ) {
                 Icon(
@@ -232,6 +240,10 @@ private fun Content(
                         onAction(SearchScreenAction.OnSearch(record.name))
                         isSheetOpen = false
                     },
+                    onClearHistory = {
+                        onAction(SearchScreenAction.OnClearHistory)
+                        isSheetOpen = false
+                    },
                 )
             }
         }
@@ -242,6 +254,7 @@ private fun Content(
 private fun SheetContent(
     records: List<Record>,
     onSelect: (Record) -> Unit,
+    onClearHistory: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -269,6 +282,23 @@ private fun SheetContent(
                         onClick = { onSelect(it) },
                     )
                 }
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+
+            TextButton(
+                onClick = { onClearHistory() },
+                modifier = Modifier
+            ) {
+                Text(
+                    stringResource(R.string.clear_history),
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                )
             }
         }
     }

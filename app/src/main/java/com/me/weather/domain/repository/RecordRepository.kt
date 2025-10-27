@@ -11,4 +11,6 @@ interface RecordRepository {
     suspend fun add(record: Record): EmptyResult<DataError.Local>
 
     suspend fun delete(record: Record)
+
+    suspend fun deleteAll()
 }

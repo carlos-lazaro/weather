@@ -6,4 +6,5 @@ sealed interface SearchScreenAction {
     data class OnQueryChange(val query: String) : SearchScreenAction
     data class OnSearch(val query: String) : SearchScreenAction
     data class SetDefault(val weather: Weather) : SearchScreenAction
+    data object OnClearHistory : SearchScreenAction
 }

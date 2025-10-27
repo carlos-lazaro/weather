@@ -10,6 +10,7 @@ import com.me.weather.domain.repository.UserPreferencesRepository
 import com.me.weather.domain.use_case.LoadDataUseCase
 import com.me.weather.domain.util.onError
 import com.me.weather.domain.util.onSuccess
+import com.me.weather.presentation.features.search.SearchScreenEvent.Error
 import com.me.weather.presentation.utils.RequestState
 import com.me.weather.presentation.utils.RequestState.Success
 import com.me.weather.presentation.utils.asUiText
@@ -82,7 +83,7 @@ class SearchViewModel @Inject constructor(
                                 }
                                 .onError { data ->
                                     _uiState.update { it.copy(weatherRequestState = RequestState.Idle) }
-                                    eventChannel.send(SearchScreenEvent.Error(data.asUiText()))
+                                    eventChannel.send(Error(data.asUiText()))
                                 }
                         }
                     }
@@ -91,6 +92,12 @@ class SearchViewModel @Inject constructor(
             is SearchScreenAction.SetDefault -> {
                 viewModelScope.launch(ioDispatcher) {
                     userPreferencesRepository.saveWeatherId(action.weather.id)
+                }
+            }
+
+            SearchScreenAction.OnClearHistory -> {
+                viewModelScope.launch(ioDispatcher) {
+                    recordRepository.deleteAll()
                 }
             }
         }

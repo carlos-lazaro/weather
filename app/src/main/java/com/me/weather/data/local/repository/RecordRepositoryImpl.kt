@@ -30,4 +30,8 @@ class RecordRepositoryImpl @Inject constructor(
     override suspend fun delete(record: Record) {
         recordDao.delete(record.toEntity())
     }
+
+    override suspend fun deleteAll() {
+        recordDao.deleteAll()
+    }
 }
