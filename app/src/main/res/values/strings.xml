@@ -32,5 +32,6 @@
     <string name="error_unknown">Something went wrong unexpectedly. Please try again.</string>
     <string name="you_didn_t_make_a_search_yet">you didn\'t make a search yet</string>
     <string name="clear_history">Clear history</string>
+    <string name="city_not_found">City not found.</string>
 
 </resources>

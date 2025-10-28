@@ -2,17 +2,20 @@ package com.me.weather.presentation.features.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.me.weather.R
 import com.me.weather.domain.model.AppDispatchers
 import com.me.weather.domain.model.Dispatcher
 import com.me.weather.domain.model.toRecord
 import com.me.weather.domain.repository.RecordRepository
 import com.me.weather.domain.repository.UserPreferencesRepository
 import com.me.weather.domain.use_case.LoadDataUseCase
+import com.me.weather.domain.util.DataError
 import com.me.weather.domain.util.onError
 import com.me.weather.domain.util.onSuccess
 import com.me.weather.presentation.features.search.SearchScreenEvent.Error
 import com.me.weather.presentation.utils.RequestState
 import com.me.weather.presentation.utils.RequestState.Success
+import com.me.weather.presentation.utils.UiText
 import com.me.weather.presentation.utils.asUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -83,7 +86,17 @@ class SearchViewModel @Inject constructor(
                                 }
                                 .onError { data ->
                                     _uiState.update { it.copy(weatherRequestState = RequestState.Idle) }
-                                    eventChannel.send(Error(data.asUiText()))
+                                    eventChannel.send(
+                                        Error(
+                                            when (data) {
+                                                DataError.Network.NotFound -> UiText.StringResource(
+                                                    R.string.city_not_found
+                                                )
+
+                                                else -> data.asUiText()
+                                            }
+                                        )
+                                    )
                                 }
                         }
                     }

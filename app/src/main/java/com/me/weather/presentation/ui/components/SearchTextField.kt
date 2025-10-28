@@ -20,7 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.me.weather.R
+import com.me.weather.presentation.ui.preview.SearchTextFieldPreviewData
+import com.me.weather.presentation.ui.preview.SearchTextFieldPreviewProvider
 import com.me.weather.presentation.ui.preview.ThemePreview
 import com.me.weather.presentation.ui.theme.WeatherTheme
 import com.me.weather.presentation.utils.RequestState
@@ -95,13 +98,16 @@ fun SearchTextField(
 
 @ThemePreview
 @Composable
-private fun Preview() {
+private fun Preview(
+    @PreviewParameter(SearchTextFieldPreviewProvider::class) data: SearchTextFieldPreviewData,
+) {
     WeatherTheme {
         Surface {
             SearchTextField(
-                value = "",
+                value = data.value,
                 onValueChange = {},
-                requestState = RequestState.Idle,
+                requestState = data.requestState,
+                onSearch = {},
             )
         }
     }

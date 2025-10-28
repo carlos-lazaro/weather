@@ -23,10 +23,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.me.weather.R
 import com.me.weather.domain.model.Forecast
+import com.me.weather.presentation.ui.preview.ListForecastPreviewProvider
 import com.me.weather.presentation.ui.preview.ThemePreview
 import com.me.weather.presentation.ui.theme.WeatherTheme
 import com.me.weather.presentation.utils.extensions.toPrettyDateShort
@@ -58,6 +60,7 @@ fun ForecastSection(
             )
             HorizontalDivider()
 
+//            TODO: add empty state
             forecasts.forEachIndexed { index, item ->
                 Item(
                     item = item,
@@ -128,11 +131,14 @@ private fun ColumnScope.Item(
 
 @ThemePreview
 @Composable
-private fun Preview() {
+private fun Preview(
+    @PreviewParameter(ListForecastPreviewProvider::class) forecasts: List<Forecast>,
+) {
     WeatherTheme {
         Surface {
             ForecastSection(
-                forecasts = listOf(), modifier = Modifier.padding(16.dp)
+                forecasts = forecasts,
+                modifier = Modifier.padding(16.dp)
             )
         }
     }

@@ -33,9 +33,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.me.weather.R
 import com.me.weather.domain.model.Favorite
+import com.me.weather.presentation.ui.preview.ListFavoritePreviewProvider
 import com.me.weather.presentation.ui.preview.ThemePreview
 import com.me.weather.presentation.ui.theme.WeatherTheme
 
@@ -172,11 +174,13 @@ private fun Item(
 
 @ThemePreview
 @Composable
-private fun Preview() {
+private fun Preview(
+    @PreviewParameter(ListFavoritePreviewProvider::class) favorites: List<Favorite>,
+) {
     WeatherTheme {
         Surface {
             FavoriteSection(
-                favorites = listOf(),
+                favorites = favorites,
             )
         }
     }
